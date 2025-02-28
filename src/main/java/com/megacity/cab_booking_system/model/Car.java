@@ -51,10 +51,6 @@ public class Car {
         return licensePlateNo;
     }
 
-    public void setLicensePlate(String licensePlateNo) {
-        this.licensePlateNo = licensePlateNo;
-    }
-
     public void setLicensePlateNo(String licensePlateNo) {
         this.licensePlateNo = licensePlateNo;
     }
