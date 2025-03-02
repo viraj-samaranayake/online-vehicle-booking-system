@@ -1,0 +1,104 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #fefce8;
+    color: #000000;
+  }
+}
+
+
+/* Custom styles */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(-3%);
+      animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+  50% {
+      transform: none;
+      animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+@layer components {
+  
+  .main-div {
+    @apply min-h-screen flex justify-center items-center mt-8
+  }
+  .navbar {
+    @apply bg-yellow-500 text-white font-semibold p-4 shadow-md
+  }
+
+  .navbar .navbar-div {
+    @apply container mx-auto px-2 flex justify-between items-center
+  }
+
+  .section {
+    @apply min-h-screen flex items-center bg-yellow-primary text-black-primary mt-4
+  }
+
+  .vehicle-card {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6
+  }
+
+  .driver-card {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6
+  }
+
+
+  .car-updatelink { 
+    @apply text-blue-600  bg-white outline outline-1 outline-blue-500
+     hover:bg-blue-100 px-3 py-1 rounded-full transition-all duration-200
+  }
+
+  .search-input {
+    @apply mb-6 placeholder:italic py-2 px-3 border outline-yellow-200 border-gray-300 rounded-full w-full md:w-1/3
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-600
+  }
+
+  .form-input {
+    @apply mt-1 block w-full px-4 py-2 border text-gray-700
+    border-gray-300 rounded-full shadow-sm focus:outline-none
+    focus:ring-2 focus:ring-yellow-500
+  }
+
+  .form-button {
+    @apply w-full mt-2 py-2 bg-yellow-500 text-white 
+    font-semibold rounded-full hover:bg-yellow-600
+    focus:outline-none focus:ring-1 focus:ring-yellow-600 transition-colors
+  }
+
+  .form-card {
+    @apply max-w-md mx-auto py-10 p-6 bg-white 
+    shadow-lg rounded-lg w-96 outline outline-1 outline-yellow-100
+  }
+
+  .scroll-button {
+    @apply fixed bottom-6 right-6 p-2 rounded-full bg-gradient-to-br from-blue-500 
+         to-blue-400 opacity-60 shadow-lg hidden 
+           focus:outline-none hover:opacity-80 transform transition-all
+  }
+
+  .admin-dashborad-link {
+    @apply flex items-center justify-center bg-yellow-400 text-white 
+           font-semibold py-3 px-6 rounded-full shadow-md hover:bg-yellow-500 transition duration-300
+  }
+}
+
+
+
