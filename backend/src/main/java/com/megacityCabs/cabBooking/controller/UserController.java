@@ -23,5 +23,4 @@ public class UserController {
     public String loginUser(@RequestBody LoginRequest request) {
         return userService.loginUser(request);
     }
-
 }
