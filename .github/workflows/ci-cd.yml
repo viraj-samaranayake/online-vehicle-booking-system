@@ -3,10 +3,10 @@ name: CI/CD Pipeline for Mega City Cab (Frontend & Backend)
 on:
   push:
     branches:
-      - main
+      - development-new
   pull_request:
     branches:
-      - main
+      - development-new
 
 jobs:
   build-backend:
