@@ -1,15 +1,13 @@
 package com.megacityCabs.cabBooking.controller;
 
+import com.megacityCabs.cabBooking.dto.CustomerRegisterRequest;
+import com.megacityCabs.cabBooking.dto.LoginRequest;
 import com.megacityCabs.cabBooking.model.Customer;
-import com.megacityCabs.cabBooking.repository.CustomerRepository;
 import com.megacityCabs.cabBooking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -27,11 +25,20 @@ public class CustomerController {
 //        return ResponseEntity.ok(savedCustomer);
 //    }
 
-    @PostMapping
-    public Customer addCustomer(@RequestBody Customer customer){
-        return customerService.addCustomer(customer);
+
+    @PostMapping("/register")
+    public String registerCustomer(@RequestBody CustomerRegisterRequest request) {
+        return customerService.registerCustomer(request);
     }
 
+    @PostMapping("/login")
+    public String loginCustomer(@RequestBody LoginRequest request) {
+        return customerService.loginCustomer(request);
+    }
+
+
+
+    // Get all customers---
     @GetMapping
     public List<Customer> getAllCustomers(){
         return customerService.getAllCustomers();

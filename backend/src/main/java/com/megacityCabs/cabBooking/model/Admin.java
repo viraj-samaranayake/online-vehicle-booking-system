@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "customers")
+@Document(collection = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer extends User {
+public class Admin extends User {
 
-    private String role = "customer";
+    private String role = "admin";
 }
