@@ -22,6 +22,7 @@ import ViewCar from './pages/ViewCars';
 import ScrollUp from './components/ScrollUp';
 import NoPage from './pages/NoPage';
 import { AuthProvider } from './context/AuthContext';
+import AdminLogin from './pages/AdminLogin';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
 
           <Route path="/customer/bookings" element={<CustomerViewBooking />} />
 
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/cars/add" element={<AddCar />} />
           <Route path="/admin/cars" element={<ViewCar />} />

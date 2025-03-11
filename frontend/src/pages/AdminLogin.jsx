@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-const Login = () => {
+const AdminLogin = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,12 +17,12 @@ const Login = () => {
     const loginData = { email, password };
 
     try {
-      const response = await axios.post('http://localhost:8081/customers/login', loginData);
+      const response = await axios.post('http://localhost:8081/admin/login', loginData);
 
       if (response.data === "Login successful!") { 
         setStatus('Login successful! Redirecting...');
         login();  // ✅ Update AuthContext state
-        setTimeout(() => navigate('/dashboard'), 1000);
+        setTimeout(() => navigate('/admin'), 1000);
       } else {
         setStatus(response.data);
       }
@@ -36,7 +36,7 @@ const Login = () => {
     <div className="main-div">
       <div className="form-card">
         <h2 className="text-2xl mb-4 font-bold text-center text-yellow-500">
-          Log In
+         ADMIN Log In
         </h2>
         {status && <p className="mt-2 text-center text-yellow-500">{status}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
@@ -90,7 +90,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
 
 
 

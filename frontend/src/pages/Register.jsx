@@ -25,7 +25,7 @@ const CustomerRegisterForm = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8081/users/register',
+        'http://localhost:8081/customers/register',
         newCustomer
       );
       setStatus(`Customer '${response.data.name}' registered successfully!`);
