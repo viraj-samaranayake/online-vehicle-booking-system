@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CustomerRegisterForm = () => {
   const [name, setName] = useState('');
@@ -10,6 +10,7 @@ const CustomerRegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ const CustomerRegisterForm = () => {
       setNic('');
       setEmail('');
       setPassword('');
+      setTimeout(() => navigate('/login'), 1000);
     } catch (error) {
       console.error('Error occurred while registering the customer',error);
       setStatus('Error occurred while registering the customer.');
