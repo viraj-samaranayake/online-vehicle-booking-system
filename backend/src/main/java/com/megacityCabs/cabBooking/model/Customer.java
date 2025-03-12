@@ -7,10 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "customers")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Customer extends User {
 
-    private String role = "customer";
 }

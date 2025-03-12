@@ -1,10 +1,7 @@
 package com.megacityCabs.cabBooking.service;
 
-import com.megacityCabs.cabBooking.dto.AdminRegisterRequest;
-import com.megacityCabs.cabBooking.dto.CustomerRegisterRequest;
 import com.megacityCabs.cabBooking.dto.LoginRequest;
 import com.megacityCabs.cabBooking.model.Admin;
-import com.megacityCabs.cabBooking.model.Customer;
 import com.megacityCabs.cabBooking.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +21,7 @@ public class AdminService {
 
 
     //Register-----------
-//    public String registerAdmin(AdminRegisterRequest request) {
+//    public String registerAdmin(RegisterRequest request) {
 //        if (adminRepository.findByEmail(request.getEmail()).isPresent()) {
 //            return "Your Email already registered!";
 //        }

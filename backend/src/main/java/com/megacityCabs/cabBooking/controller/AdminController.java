@@ -1,7 +1,5 @@
 package com.megacityCabs.cabBooking.controller;
 
-import com.megacityCabs.cabBooking.dto.AdminRegisterRequest;
-import com.megacityCabs.cabBooking.dto.CustomerRegisterRequest;
 import com.megacityCabs.cabBooking.dto.LoginRequest;
 import com.megacityCabs.cabBooking.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ public class AdminController {
 //        return adminService.registerAdmin(request);
 //    }
 
-    @PostMapping
+    @PostMapping("/login")
     public String loginAdmin(@RequestBody LoginRequest request) {
         return adminService.loginAdmin(request);
     }

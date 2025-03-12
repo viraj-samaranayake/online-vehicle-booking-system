@@ -28,15 +28,29 @@ public class BookingController {
         return bookingService.getAllBookings();
     }
 
-    // Get booking by ID
+
+
     @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable String id) {
-        return bookingService.getBookingById(id);
+    public ResponseEntity<Booking> getBookingById(@PathVariable String id) {
+        try {
+            Booking booking = bookingService.getBookingById(id);
+            return ResponseEntity.ok(booking);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(null); // Return 404 if booking not found
+        }
     }
+
+
 
     @PutMapping("/{id}")
     public Booking updateBooking(@PathVariable String id,@RequestBody Booking booking){
         return bookingService.updateBooking(booking);
+    }
+
+    // Get bookings by customerId
+    @GetMapping("/customers/{customerId}")
+    public List<Booking> getBookingsByCustomerId(@PathVariable String customerId) {
+        return bookingService.getBookingsByCustomerId(customerId);
     }
 }
 

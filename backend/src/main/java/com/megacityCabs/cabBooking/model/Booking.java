@@ -16,6 +16,7 @@ public class Booking {
     @Id
     private String id;
     private String customerName;
+    private String customerId;
     private String address;
     private String vehicleType;
     private String phone;
@@ -24,5 +25,4 @@ public class Booking {
     @CreatedDate
     private Date createdDateTime;
     private boolean bookingStatus;
-
 }

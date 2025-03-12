@@ -18,6 +18,6 @@ public class Driver {
     private String mobileNo;
     private String email;
     private String nicNo;
-    private int licenseNo;
+    private int vehicleLicenseNo;
     private int experienceYears;
 }
