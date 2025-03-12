@@ -23,6 +23,8 @@ import ScrollUp from './components/ScrollUp';
 import NoPage from './pages/NoPage';
 import { AuthProvider } from './context/AuthContext';
 import AdminLogin from './pages/AdminLogin';
+import CustomerViewBill from './pages/Bill';
+import ViewBill from './pages/Bill';
 
 const App = () => {
   return (
@@ -41,6 +43,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/customer/bookings" element={<CustomerViewBooking />} />
+          <Route path="/bill/:customerId" element={<ViewBill />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />

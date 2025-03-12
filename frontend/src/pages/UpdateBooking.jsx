@@ -171,15 +171,11 @@
 
 
 
-
-
-
-
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function UpdateBooking() {
-  const { id } = useParams(); // Get the car ID from the URL
+  const { id } = useParams(); // Get the booking ID from the URL
   const navigate = useNavigate();
   
 

@@ -1,213 +1,119 @@
-// import { FiCreditCard } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
+const ViewBill = () => {
+  
+  const { customerId } = useParams();
+  const [booking, setBooking] = useState(null);
+  const [bill, setBill] = useState(null);
+  const navigate = useNavigate();
 
-// const Bill = () => {
-
-
-//   return (
-//     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-//       <div className=" max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg w-96">
-//         <h2 className="text-2xl font-bold text-center text-yellow-500">
-//           Customer Bill
-//         </h2>
-
-
-//         <p className="mt-2 text-center text-yellow-500">Your Bill</p>
-
-//           <div className="mb-4">
-//             <label
-//               className="block text-sm font-medium text-gray-700"
-//             >
-//               Start Location: {data.pickupLocation}
-//             </label>
-
-//           </div>
-
-//           <div className="mb-4">
-//             <label
-//               className="block text-sm font-medium text-gray-700"
-//             >
-//               Destination
-//             </label>
-
-//           </div>
-
-//           <div className="mb-4">
-//             <label
-//               className="block text-sm font-medium text-gray-700"
-//             >
-//               Distance
-//             </label>
-
-//           </div>
-
-//           <div className="mb-4">
-//             <label
-//               className="block text-sm font-medium text-gray-700"
-//             >
-//               Tax Rs: 
-//             </label>
-
-//           </div>
-
-//           <div className="mb-4">
-//             <label
-//               className="block text-sm font-medium text-gray-700"
-//             >
-//               Total Rs: 
-//             </label>
-
-//           </div>
-
-//           <button
-//             type="submit"
-//             className="flex items-center justify-center w-full py-2 px-4 bg-yellow-500 text-white font-semibold 
-//             rounded-full hover:bg-yellow-600 focus:outline-none focus:ring-1 focus:ring-yellow-500"
-//           >
-//             Pay &nbsp; <FiCreditCard/>
-//           </button>
-
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Bill
-
-
-
-import { useState, useEffect } from 'react';
-import { FiCreditCard } from 'react-icons/fi';
-
-const Bill = () => {
-  // State to hold the bill data
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Fetch bill data when the component mounts or customerId changes
+  // Fetch booking details from API
   useEffect(() => {
-    const fetchBillData = async () => {
+    const fetchBooking = async () => {
       try {
-        const response = await fetch(`http://localhost:8081/bills/679dffb1a0fa7c596cffeeb6`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch bill data');
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        const response = await fetch(`http://localhost:8081/bookings/customers/${customerId}`);
+        const data = await response.json();
+        setBooking(data);
+        generateBill(data);
+      } catch (error) {
+        console.error('Error fetching booking details:', error);
       }
     };
 
-    fetchBillData();
-  }, []);
+    fetchBooking();
+  }, [customerId]);
 
-  if (loading) {
-    return (
-      <div className="main-div">
-        <div className="w-96 text-center text-yellow-500">
-          Loading bill details...
-        </div>
-      </div>
-    );
-  }
+  // Generate bill based on booking details
+  const generateBill = (bookingData) => {
+    if (!bookingData) return;
 
-  if (error) {
-    return (
-      <div className="main-div">
-        <div className="w-96 text-center text-red-500">
-          Error: {error}
-        </div>
-      </div>
-    );
-  }
+    const distance = Math.floor(Math.random() * 20) + 5; // Random distance (5-25 km)
+    const farePerKm = 10; // Example fare rate per km
+    const baseFare = distance * farePerKm;
+    const tax = baseFare * 0.1; // 10% tax
+    const discount = baseFare * 0.05; // 5% discount
+    const total = baseFare + tax - discount;
 
-  if (!data) {
-    return (
-      <div className="main-div">
-        <div className="w-96 text-center text-yellow-500">
-          No bill data available for this customer.
-        </div>
-      </div>
-    );
-  }
+    const newBill = {
+
+      customerName: bookingData.customerName,
+      phone: bookingData.phone,
+      address: bookingData.address,
+      pickupLocation: bookingData.startLocation,
+      destination: bookingData.destination,
+      distance,
+      tax: tax.toFixed(2),
+      discount: discount.toFixed(2),
+      total: total.toFixed(2),
+    };
+
+    setBill(newBill);
+  };
+
+  // Save bill to DB and print
+  const handlePrint = async () => {
+    if (!bill) return;
+
+    try {
+      const response = await fetch("http://localhost:8081/bills", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bill),
+      });
+
+      if (response.ok) {
+        window.print();
+      } else {
+        console.error("Failed to save bill.");
+      }
+    } catch (error) {
+      console.error("Error saving bill:", error);
+    }
+  };
 
   return (
-    <div className="main-div">
-      <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg w-96">
-        <h2 className="text-2xl font-bold text-center text-yellow-500">
-          Customer Bill
-        </h2>
+    <div className="container mx-auto p-6 min-h-screen mt-20 flex justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-10 w-full max-w-2xl text-gray-700">
+        <h1 className="text-3xl font-semibold text-yellow-700 text-center mb-6">Bill Summary</h1>
 
-        <p className="mt-2 text-center text-yellow-500">Your Bill</p>
+        {bill ? (
+          <div className="space-y-4">
+            <p><strong>Bill ID:</strong> {bill.id}</p>
+            <p><strong>Customer Name:</strong> {bill.customerName}</p>
+            <p><strong>Phone:</strong> {bill.phone}</p>
+            <p><strong>Address:</strong> {bill.address}</p>
+            <p><strong>Pickup Location:</strong> {bill.pickupLocation}</p>
+            <p><strong>Destination:</strong> {bill.destination}</p>
+            <p><strong>Distance:</strong> {bill.distance} km</p>
+            <p><strong>Tax:</strong> ${bill.tax}</p>
+            <p><strong>Discount:</strong> ${bill.discount}</p>
+            <p className="text-xl font-bold text-yellow-700"><strong>Total Fare:</strong> ${bill.total}</p>
 
-        <div className="mb-4">
-          <label className="form-label">
-            Customer Name: {data.customerName}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Phone: {data.phone}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Address: {data.address}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Start Location: {data.pickupLocation}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Destination: {data.destination}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Distance: {data.distance} km
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Tax Rs: {data.tax}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Discount Rs: {data.discount}
-          </label>
-        </div>
-
-        <div className="mb-4">
-          <label className="form-label">
-            Total Rs: {data.total}
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          className="flex items-center justify-center w-full py-2 px-4 bg-yellow-500 text-white font-semibold 
-            rounded-full hover:bg-yellow-600 focus:outline-none focus:ring-1 focus:ring-yellow-500"
-        >
-          Print Bill &nbsp; <FiCreditCard />
-        </button>
+            {/* Buttons */}
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={handlePrint}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg transition"
+              >
+                Print Bill
+              </button>
+              <button
+                onClick={() => navigate(-1)}
+                className="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-6 py-2 rounded-lg transition"
+              >
+                Back
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p className="text-center text-yellow-600">Loading bill details...</p>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Bill
+export default ViewBill;
