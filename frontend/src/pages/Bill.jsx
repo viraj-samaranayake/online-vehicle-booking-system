@@ -1,119 +1,97 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Import useParams to get the id
+import { jsPDF } from 'jspdf';
 
-const ViewBill = () => {
-  
-  const { customerId } = useParams();
-  const [booking, setBooking] = useState(null);
+const Bill = () => {
+  const { id } = useParams(); // Get the booking id from the URL
   const [bill, setBill] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  // Fetch booking details from API
   useEffect(() => {
-    const fetchBooking = async () => {
-      try {
-        const response = await fetch(`http://localhost:8081/bookings/customers/${customerId}`);
-        const data = await response.json();
-        setBooking(data);
-        generateBill(data);
-      } catch (error) {
-        console.error('Error fetching booking details:', error);
-      }
-    };
-
-    fetchBooking();
-  }, [customerId]);
-
-  // Generate bill based on booking details
-  const generateBill = (bookingData) => {
-    if (!bookingData) return;
-
-    const distance = Math.floor(Math.random() * 20) + 5; // Random distance (5-25 km)
-    const farePerKm = 10; // Example fare rate per km
-    const baseFare = distance * farePerKm;
-    const tax = baseFare * 0.1; // 10% tax
-    const discount = baseFare * 0.05; // 5% discount
-    const total = baseFare + tax - discount;
-
-    const newBill = {
-
-      customerName: bookingData.customerName,
-      phone: bookingData.phone,
-      address: bookingData.address,
-      pickupLocation: bookingData.startLocation,
-      destination: bookingData.destination,
-      distance,
-      tax: tax.toFixed(2),
-      discount: discount.toFixed(2),
-      total: total.toFixed(2),
-    };
-
-    setBill(newBill);
-  };
-
-  // Save bill to DB and print
-  const handlePrint = async () => {
-    if (!bill) return;
-
-    try {
-      const response = await fetch("http://localhost:8081/bills", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bill),
+    // Fetch the bill data for the specific bookingId from the API
+    fetch(`http://localhost:8081/bills/booking/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        setBill(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching bill data:', error);
+        setLoading(false);
       });
+  }, [id]); // Dependency array includes id to refetch if it changes
 
-      if (response.ok) {
-        window.print();
-      } else {
-        console.error("Failed to save bill.");
-      }
-    } catch (error) {
-      console.error("Error saving bill:", error);
+  // Function to download the bill as a PDF
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(16);
+
+    // Title
+    doc.text('Bill Details', 20, 20);
+
+    // Bill Data
+    if (bill) {
+      doc.setFontSize(12);
+      doc.text(`Customer Name: ${bill.customerName}`, 20, 30);
+      doc.text(`Booking ID: ${bill.bookingId}`, 20, 40);
+      doc.text(`Driver Name: ${bill.driverName}`, 20, 50);
+      doc.text(`Pickup Location: ${bill.pickupLocation}`, 20, 60);
+      doc.text(`Destination: ${bill.destination}`, 20, 70);
+      doc.text(`Vehicle Type: ${bill.vehicleType}`, 20, 80);
+      doc.text(`License Plate No: ${bill.licensePlateNo}`, 20, 90);
+      doc.text(`Distance: ${bill.distance} km`, 20, 100);
+      doc.text(`Tax: Rs: ${bill.tax.toFixed(2)}`, 20, 110);
+      doc.text(`Discount: Rs: ${bill.discount.toFixed(2)}`, 20, 120);
+      doc.text(`Total: Rs: ${bill.total.toFixed(2)}`, 20, 130);
     }
+
+    // Save the generated PDF
+    doc.save('bill.pdf');
   };
+
+  if (loading) {
+    return <div className="text-center text-lg text-gray-600">Loading...</div>;
+  }
 
   return (
-    <div className="container mx-auto p-6 min-h-screen mt-20 flex justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-10 w-full max-w-2xl text-gray-700">
-        <h1 className="text-3xl font-semibold text-yellow-700 text-center mb-6">Bill Summary</h1>
-
+    <div className="min-h-screen bg-yellow-100 py-8 px-6 sm:px-12 mt-16">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg border-t-4 border-yellow-600">
+        <h2 className="text-2xl font-semibold text-yellow-600 mb-6 text-center">Bill Details</h2>
+        
         {bill ? (
           <div className="space-y-4">
-            <p><strong>Bill ID:</strong> {bill.id}</p>
-            <p><strong>Customer Name:</strong> {bill.customerName}</p>
-            <p><strong>Phone:</strong> {bill.phone}</p>
-            <p><strong>Address:</strong> {bill.address}</p>
-            <p><strong>Pickup Location:</strong> {bill.pickupLocation}</p>
-            <p><strong>Destination:</strong> {bill.destination}</p>
-            <p><strong>Distance:</strong> {bill.distance} km</p>
-            <p><strong>Tax:</strong> ${bill.tax}</p>
-            <p><strong>Discount:</strong> ${bill.discount}</p>
-            <p className="text-xl font-bold text-yellow-700"><strong>Total Fare:</strong> ${bill.total}</p>
+            <div className="text-lg text-gray-700">
+              <p><strong className="text-yellow-600">Bill ID:</strong> {bill.id}</p>
+              <p><strong className="text-yellow-600">Customer Name:</strong> {bill.customerName}</p>
+              <p><strong className="text-yellow-600">Booking ID:</strong> {bill.bookingId}</p>
+              <p><strong className="text-yellow-600">Driver Name:</strong> {bill.driverName}</p>
+              <p><strong className="text-yellow-600">Pickup Location:</strong> {bill.pickupLocation}</p>
+              <p><strong className="text-yellow-600">Destination:</strong> {bill.destination}</p>
+              <p><strong className="text-yellow-600">Vehicle Type:</strong> {bill.vehicleType}</p>
+              <p><strong className="text-yellow-600">License Plate No:</strong> {bill.licensePlateNo}</p>
+              <p><strong className="text-yellow-600">Distance:</strong> {bill.distance} km</p>
+              <p><strong className="text-yellow-600">Tax:</strong> Rs: {bill.tax.toFixed(2)}</p>
+              <p><strong className="text-yellow-600">Discount:</strong> Rs: {bill.discount.toFixed(2)}</p>
+              <p><strong className="text-yellow-600">Total:</strong> Rs: {bill.total.toFixed(2)}</p>
+            </div>
 
-            {/* Buttons */}
-            <div className="flex justify-between mt-6">
+            <div className="text-center">
               <button
-                onClick={handlePrint}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg transition"
+                onClick={downloadPDF}
+                className="mt-6 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out"
               >
-                Print Bill
-              </button>
-              <button
-                onClick={() => navigate(-1)}
-                className="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-6 py-2 rounded-lg transition"
-              >
-                Back
+                Download as PDF
               </button>
             </div>
           </div>
         ) : (
-          <p className="text-center text-yellow-600">Loading bill details...</p>
+          <p className="text-center text-red-500">No bill data available.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default ViewBill;
+export default Bill;

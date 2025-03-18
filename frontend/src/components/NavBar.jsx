@@ -104,7 +104,7 @@ const Navbar = () => {
           {/* Logo */}
           <h1 className="text-3xl font-semibold">
             <Link to="/" className="text-white">  
-              MCity<span className="text-sm">Cabs™</span>
+              MegaCity<span className="text-sm">Cabs™</span>
             </Link>
           </h1>
 
@@ -114,7 +114,7 @@ const Navbar = () => {
             
             {!isAuthenticated ? (
               <>
-                <Link to="/login" className="text-black-primary hover:text-white transition-colors">Log in</Link>
+                <Link to="/login" className="text-black-primary hover:text-white transition-colors">Sign in</Link>
                 <Link to="/register" className="bg-yellow-500 text-white rounded-full py-2 px-6 border">
                   Sign up
                 </Link>

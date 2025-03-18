@@ -24,6 +24,7 @@ const AdminDashboard = () => {
   const [newBookings, setNewBookings] = useState([]);  // State for new bookings
   const [completedBookings, setCompletedBookings] = useState([]);
 
+
   useEffect(() => {
     const fetchVehicleStats = async () => {
       try {
@@ -213,7 +214,7 @@ const AdminDashboard = () => {
           <Link to="/admin/drivers" className="admin-dashborad-link">
             <GoSearch />&nbsp;View Drivers
           </Link>
-          <Link to="/admin/cars/add" className="admin-dashborad-link">
+          <Link to="/admin/addcar" className="admin-dashborad-link">
             <IoMdAdd />&nbsp;Add Vehicles
           </Link>
           <Link to="/admin/cars" className="admin-dashborad-link">
@@ -222,7 +223,9 @@ const AdminDashboard = () => {
           <Link to="/admin/bookings" className="admin-dashborad-link">
             <GoSearch />&nbsp;View Bookings
           </Link>
-          
+          <Link to="/admin/billvalues" className="admin-dashborad-link">
+            <IoMdAdd />&nbsp;Manage Biil Values
+          </Link>
         </div>
       </div>
     </div>

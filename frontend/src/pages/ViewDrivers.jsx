@@ -22,49 +22,74 @@ function ViewDriver() {
   useEffect(() => {
     // Filter drivers based on NIC No when search query changes
     setFilteredDrivers(
-      drivers.filter(driver => driver.nicNo.toLowerCase().includes(searchQuery.toLowerCase()))
+      drivers.filter((driver) =>
+        driver.nicNo.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
   }, [searchQuery, drivers]);
 
   const deleteDriver = async () => {
     if (driverToDelete) {
-      const response = await fetch(`http://localhost:8081/admin/drivers/${driverToDelete.id}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `http://localhost:8081/admin/drivers/${driverToDelete.id}`,
+        {
+          method: 'DELETE',
+        }
+      );
       if (response.ok) {
-        setDrivers(drivers.filter(driver => driver.id !== driverToDelete.id));
-        setFilteredDrivers(filteredDrivers.filter(driver => driver.id !== driverToDelete.id));
+        setDrivers(drivers.filter((driver) => driver.id !== driverToDelete.id));
+        setFilteredDrivers(
+          filteredDrivers.filter((driver) => driver.id !== driverToDelete.id)
+        );
         setShowDeleteModal(false);
       }
     }
   };
-// container mx-auto p-4 min-h-screen
+  // container mx-auto p-4 min-h-screen
   return (
     <div className="container mx-auto p-4 min-h-screen mt-20">
-      <h1 className="text-3xl text-center font-semibold text-yellow-800 m-8">Driver List</h1>
-      
+      <h1 className="text-3xl text-center font-semibold text-yellow-800 m-8">
+        Driver List
+      </h1>
+
       <input
-        name='search'
+        name="search"
         type="number"
         placeholder="Search by NIC"
         value={searchQuery}
-        pattern='^[0-9]+$'
+        pattern="^[0-9]+$"
         onChange={(e) => setSearchQuery(e.target.value)}
         className="search-input"
       />
-      
+
       {filteredDrivers.length === 0 ? (
         <p className="text-gray-500">No drivers found.</p>
       ) : (
         <div className="driver-card">
-          {filteredDrivers.map(driver => (
-            <div key={driver.id} className="bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-4">
+          {filteredDrivers.map((driver) => (
+            <div
+              key={driver.id}
+              className="bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-4"
+            >
               <div className="text-xl font-semibold text-gray-700">
-                {driver.name} <span className="text-gray-500 font-medium"> &nbsp;NIC: {driver.nicNo}</span>
+                {driver.name}{' '}
+                <span className="text-gray-500 font-medium">
+                  {' '}
+                  &nbsp;NIC: {driver.nicNo}
+                </span>
               </div>
               <div className="text-gray-600">
                 <p>Mobile: {driver.mobileNo}</p>
                 <p>Email: {driver.email}</p>
+                <p>License No: {driver.drivingLicenseNo}</p>
+                <p>Experience: {driver.experienceYears}</p>
+
+                {/* Display Assigned Car details */}
+                {driver.assignedCar && (
+                  <div>
+                    <p>Assigned Car: {driver.assignedCar.brand} | {driver.assignedCar.licensePlateNo}</p>
+                  </div>
+                )}
               </div>
               <div className="flex justify-between items-center mt-auto">
                 <Link
@@ -92,8 +117,12 @@ function ViewDriver() {
       {showDeleteModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Confirm Deletion</h3>
-            <p className="text-gray-700 mb-6">Are you sure, you want to delete this driver?</p>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-700 mb-6">
+              Are you sure, you want to delete this driver?
+            </p>
             <div className="flex justify-between">
               <button
                 onClick={() => setShowDeleteModal(false)}
@@ -113,6 +142,6 @@ function ViewDriver() {
       )}
     </div>
   );
-};
+}
 
 export default ViewDriver;

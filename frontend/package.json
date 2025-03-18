@@ -13,6 +13,7 @@
     "@radix-ui/react-dialog": "^1.1.4",
     "@react-google-maps/api": "^2.20.5",
     "axios": "^1.7.9",
+    "jspdf": "^3.0.0",
     "lucide-react": "^0.473.0",
     "mdb-react-ui-kit": "^9.0.0",
     "react": "^18.3.1",

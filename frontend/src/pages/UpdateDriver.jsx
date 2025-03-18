@@ -87,6 +87,9 @@ function UpdateDriver() {
             name="name"
             value={driver.name}
             onChange={handleChange}
+            required
+            pattern='^[A-Za-z]{3,}$'
+            title='Enter a valid name with at least 3 letters'
             className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
@@ -94,7 +97,7 @@ function UpdateDriver() {
         <div>
           <label htmlFor="nicNo" className="block text-gray-700">NIC No</label>
           <input
-            disabled='true'
+            readOnly
             type="text"
             id="nicNo"
             name="nicNo"
@@ -112,7 +115,9 @@ function UpdateDriver() {
             name="mobileNo"
             value={driver.mobileNo}
             onChange={handleChange}
-            pattern="[0-9]{10}"
+            required
+            pattern='^\d{10}$'
+            title='Enter a valid 10-digit phone number'
             className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
@@ -126,6 +131,7 @@ function UpdateDriver() {
             value={driver.email}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg"
+            required
           />
         </div>
 

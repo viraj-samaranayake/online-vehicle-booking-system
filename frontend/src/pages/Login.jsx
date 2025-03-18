@@ -43,7 +43,7 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8081/customers/login', loginData);
   
-      if (response.status === 200) {
+      if (response.data === 'Login successful!') {
         setStatus('Login successful! Redirecting...');
         login();
   
@@ -69,7 +69,7 @@ const Login = () => {
     <div className="main-div">
       <div className="form-card">
         <h2 className="text-2xl mb-4 font-bold text-center text-yellow-500">
-          Log In
+          Sign In
         </h2>
         {status && <p className="mt-2 text-center text-yellow-500">{status}</p>}
         <form onSubmit={handleSubmit} className="mt-4">

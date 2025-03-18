@@ -38,7 +38,7 @@ const CustomerRegisterForm = () => {
       setPassword('');
       setTimeout(() => navigate('/login'), 1000);
     } catch (error) {
-      console.error('Error occurred while registering the customer',error);
+      console.error('Error occurred while registering the customer', error);
       setStatus('Error occurred while registering the customer.');
     }
   };
@@ -52,12 +52,8 @@ const CustomerRegisterForm = () => {
         {status && <p className="mt-2 text-center text-green-600">{status}</p>}
 
         <form onSubmit={handleSubmit} className="mt-4">
-        
           <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="form-label"
-            >
+            <label htmlFor="name" className="form-label">
               Name
             </label>
             <input
@@ -72,10 +68,7 @@ const CustomerRegisterForm = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="address"
-              className="form-label"
-            >
+            <label htmlFor="address" className="form-label">
               Address
             </label>
             <input
@@ -89,10 +82,7 @@ const CustomerRegisterForm = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="phone"
-              className="form-label"
-            >
+            <label htmlFor="phone" className="form-label">
               Phone No
             </label>
             <input
@@ -106,10 +96,7 @@ const CustomerRegisterForm = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="nic"
-              className="form-label"
-            >
+            <label htmlFor="nic" className="form-label">
               NIC
             </label>
             <input
@@ -123,10 +110,7 @@ const CustomerRegisterForm = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="form-label"
-            >
+            <label htmlFor="email" className="form-label">
               Email
             </label>
             <input
@@ -140,10 +124,7 @@ const CustomerRegisterForm = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="form-label"
-            >
+            <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
@@ -156,17 +137,22 @@ const CustomerRegisterForm = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            className="form-button"
-          >
+          <button type="submit" className="form-button">
             Sign up
           </button>
-          <p className='flex items-center text-gray-700 justify-center mt-4'>Already have an account? <Link to="/login">&nbsp;<span className='text-yellow-500 hover:text-yellow-600'>Log in</span></Link></p>
+          <p className="flex items-center text-gray-700 justify-center mt-4">
+            Already have an account?{' '}
+            <Link to="/login">
+              &nbsp;
+              <span className="text-yellow-500 hover:text-yellow-600">
+                Log in
+              </span>
+            </Link>
+          </p>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CustomerRegisterForm
+export default CustomerRegisterForm;

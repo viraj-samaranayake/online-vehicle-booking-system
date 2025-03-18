@@ -23,8 +23,7 @@ import ScrollUp from './components/ScrollUp';
 import NoPage from './pages/NoPage';
 import { AuthProvider } from './context/AuthContext';
 import AdminLogin from './pages/AdminLogin';
-import CustomerViewBill from './pages/Bill';
-import ViewBill from './pages/Bill';
+import BillValue from './pages/BillValue';
 
 const App = () => {
   return (
@@ -38,16 +37,15 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<CabBooking />} />
-          <Route path="/bills" element={<Bill />} />
           <Route path="/admin/bookings" element={<ViewBookings />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/customer/bookings" element={<CustomerViewBooking />} />
-          <Route path="/bill/:customerId" element={<ViewBill />} />
+          <Route path="/customer/bookings/bill/:id" element={<Bill />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/cars/add" element={<AddCar />} />
+          <Route path="/admin/addcar" element={<AddCar />} />
           <Route path="/admin/cars" element={<ViewCar />} />
           <Route path="/admin/cars/:id" element={<UpdateCar />} />
 
@@ -56,6 +54,7 @@ const App = () => {
           <Route path="/admin/drivers/:id" element={<UpdateDriver />} />
 
           <Route path="/admin/bookings/:id" element={<UpdateBooking />} />
+          <Route path="/admin/billvalues" element={<BillValue />} />
 
           <Route path="*" element={<NoPage />} />
         </Routes>
