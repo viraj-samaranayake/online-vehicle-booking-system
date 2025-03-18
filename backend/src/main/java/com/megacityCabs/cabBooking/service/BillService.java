@@ -27,6 +27,12 @@ public class BillService {
         return billRepository.findById(id).orElse(null);
     }
 
+    // New method to get a Bill by bookingId
+    public Bill getBillByBookingId(String bookingId) {
+        return billRepository.findByBookingId(bookingId);
+    }
+
+
     public String deleteBill(String id){
         billRepository.deleteById(id);
         return "Deleted successfully";

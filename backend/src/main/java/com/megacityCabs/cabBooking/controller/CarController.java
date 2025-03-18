@@ -2,7 +2,11 @@ package com.megacityCabs.cabBooking.controller;
 
 import com.megacityCabs.cabBooking.model.Car;
 import com.megacityCabs.cabBooking.service.CarService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +25,21 @@ public class CarController {
     }
 
     @PostMapping
-    public Car addCar(@RequestBody Car car) {
-        return carService.addCar(car);
+    public ResponseEntity<?> addCar(@Valid @RequestBody Car car, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(errorMessage.toString());
+        }
+
+        // Check if the license plate number already exists
+        if (carService.isLicensePlateExists(car.getLicensePlateNo())) {
+            return ResponseEntity.badRequest().body("Car with this license number already exists.");
+        }
+
+        // Save the car
+        Car savedCar = carService.saveCar(car);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCar);
     }
 
     @GetMapping("/{id}")

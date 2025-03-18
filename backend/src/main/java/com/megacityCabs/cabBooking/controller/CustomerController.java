@@ -51,7 +51,6 @@ public class CustomerController {
     }
 
 
-
     // Get all customers---
     @GetMapping
     public List<Customer> getAllCustomers(){

@@ -18,10 +18,14 @@ public class Booking {
     private String customerName;
     private String customerId;
     private String address;
+    private String driverId;
+    private String driverName;
     private String vehicleType;
+    private String licensePlateNo;
     private String phone;
     private String startLocation;
     private String destination;
+    private String distance;
     @CreatedDate
     private Date createdDateTime;
     private boolean bookingStatus;

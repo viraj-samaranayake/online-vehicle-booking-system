@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/bills")
@@ -24,6 +25,14 @@ public class BillController {
     public Bill getBillById(@PathVariable String id){
         return billService.getBillById(id);
     }
+
+
+    // New endpoint to get Bill by bookingId
+    @GetMapping(path = "/booking/{bookingId}")
+    public Bill getBillByBookingId(@PathVariable String bookingId) {
+        return billService.getBillByBookingId(bookingId);
+    }
+
 
     @PostMapping
     public Bill addBill(@RequestBody Bill bill){

@@ -13,12 +13,13 @@ public class Bill {
     @Id
     private String id;
     private String customerName;
-    private String phone;
-    private String address;
+    private String bookingId;
+    private String driverName;
     private String pickupLocation;
     private String destination;
     private String vehicleType;
-    private double distance;
+    private String licensePlateNo;
+    private String distance;
     private double tax;
     private double discount;
     private double total;

@@ -62,12 +62,16 @@ public class CustomerService {
     // Login------------
     public String loginCustomer(LoginRequest request) {
         Optional<Customer> customer = customerRepository.findByEmail(request.getEmail());
-
-        if (customer.isPresent() && passwordEncoder.matches(request.getPassword(), customer.get().getPassword())) {
+        if (customer.isEmpty() || request.getPassword() == "") {
+            return "Invalid email or password";
+        }
+        // If the email exists, check if the password matches
+        if (passwordEncoder.matches(request.getPassword(), customer.get().getPassword())) {
             return "Login successful!";
         }
-        return "Invalid email or password!";
+        return "Invalid password!";
     }
+
 
     // Get All Customers
     public List<Customer> getAllCustomers() {
