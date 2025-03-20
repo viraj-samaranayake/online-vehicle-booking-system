@@ -28,5 +28,5 @@ public class Booking {
     private String distance;
     @CreatedDate
     private Date createdDateTime;
-    private boolean bookingStatus;
+    private String bookingStatus;
 }
