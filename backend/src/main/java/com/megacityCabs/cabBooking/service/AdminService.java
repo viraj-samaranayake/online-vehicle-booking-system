@@ -1,6 +1,5 @@
 package com.megacityCabs.cabBooking.service;
 
-import com.megacityCabs.cabBooking.dto.LoginRequest;
 import com.megacityCabs.cabBooking.model.Admin;
 import com.megacityCabs.cabBooking.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +19,29 @@ public class AdminService {
     private BCryptPasswordEncoder passwordEncoder;
 
 
-    //Register-----------
-//    public String registerAdmin(RegisterRequest request) {
-//        if (adminRepository.findByEmail(request.getEmail()).isPresent()) {
-//            return "Your Email already registered!";
-//        }
+//    public Admin registerAdmin(Admin admin) {
+//        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+//        return adminRepository.save(admin);
+//    }
 //
-//        Admin admin = new Admin();
-//        admin.setName(request.getName());
-//        admin.setEmail(request.getEmail());
-//        admin.setPhone(request.getPhone());
-//        admin.setAddress(request.getAddress());
-//        admin.setNic(request.getNic());
-//        admin.setPassword(passwordEncoder.encode(request.getPassword())); // Encrypt password
-//        admin.setRole(request.getRole());
+//    public boolean isEmailExists(String email) {
+//        return adminRepository.existsByEmail(email);
+//    }
 //
-//        adminRepository.save(admin);
-//        return "Admin registered successfully!";
+//    public boolean isNicExists(String nic) {
+//        return adminRepository.existsByNic(nic);
 //    }
 
-    // Login------------
-    public String loginAdmin(LoginRequest request) {
-        Optional<Admin> admin = adminRepository.findByEmail(request.getEmail());
-
-        if (admin.isPresent() && passwordEncoder.matches(request.getPassword(), admin.get().getPassword())) {
+    public String adminLogin(Admin admin) {
+        Optional<Admin> fetchedAdmin = adminRepository.findByEmail(admin.getEmail());
+        if (fetchedAdmin.isEmpty() || admin.getPassword().isEmpty()) {
+            return "Invalid email or password";
+        }
+        // If the email exists, check if the password matches
+        if (passwordEncoder.matches(admin.getPassword(), fetchedAdmin.get().getPassword())) {
             return "Login successful!";
         }
-        return "Invalid email or password!";
+        return "Invalid email or password";
     }
+
 }

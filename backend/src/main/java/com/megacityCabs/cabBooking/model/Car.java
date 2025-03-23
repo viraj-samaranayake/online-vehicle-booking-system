@@ -26,7 +26,7 @@ public class Car {
     @Size(min = 2, max = 30, message = "Brand name must be between 2 and 30 characters")
     private String brand;
 
-    @NotNull(message = "Model cannot be empty")
+    @NotNull(message = "Car Model cannot be empty")
     @Size(min = 1, max = 30, message = "Model name must be between 1 and 30 characters")
     private String model;
 

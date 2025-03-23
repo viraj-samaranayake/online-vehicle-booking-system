@@ -19,6 +19,18 @@ public class DriverService {
     @Autowired
     private CarRepository carRepository;
 
+    public boolean isEmailExists(String email) {
+        return driverRepository.existsByEmail(email);
+    }
+
+    public boolean isNicExists(String nic) {
+        return driverRepository.existsByNicNo(nic);
+    }
+
+    public boolean isDrivingLicenseNoExists(String drivingLicenseNo) {
+        return driverRepository.existsByDrivingLicenseNo(drivingLicenseNo);
+    }
+
     public Driver addDriver(Driver driver) {
         // Check if carId is provided and if car exists in the database
         if (driver.getAssignedCar() != null && driver.getAssignedCar().getId() != null) {
@@ -29,20 +41,14 @@ public class DriverService {
             driver.setAssignedCar(car);
         }
 
-        // Save the driver (with or without a car)
+        // Save the driver
         return driverRepository.save(driver);
     }
-
 
 
     public List<Driver> getAllDrivers() {
         return driverRepository.findAll();
     }
-
-//    public Driver addDriver(Driver driver) {
-//        return driverRepository.save(driver);
-//    }
-
 
     public Driver getDriverById(String id) {
         return driverRepository.findById(id).orElse(null);

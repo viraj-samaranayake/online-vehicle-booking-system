@@ -1,12 +1,13 @@
 package com.megacityCabs.cabBooking.controller;
 
-import com.megacityCabs.cabBooking.dto.LoginRequest;
-import com.megacityCabs.cabBooking.dto.RegisterRequest;
 import com.megacityCabs.cabBooking.model.Customer;
+import com.megacityCabs.cabBooking.service.CarService;
 import com.megacityCabs.cabBooking.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,23 +21,42 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-
-
-//    @PostMapping
-//    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-//        Customer savedCustomer = customerRepository.save(customer);
-//        return ResponseEntity.ok(savedCustomer);
-//    }
-
+    @Autowired
+    private CarService carService;
 
     @PostMapping("/register")
-    public String registerCustomer(@RequestBody RegisterRequest request) {
-        return customerService.register(request);
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(errorMessage.toString());
+        }
+
+        // Check if the NIC already exists
+        if (customerService.isNicExists(customer.getNic())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This NIC already exists!");
+        }
+
+        // Check if the email already exists
+        if (customerService.isEmailExists(customer.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists!");
+        }
+
+        // Register the customer
+        Customer savedCustomer = customerService.registerCustomer(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
     }
 
+
     @PostMapping("/login")
-    public String loginCustomer(@RequestBody LoginRequest request) {
-        return customerService.loginCustomer(request);
+    public ResponseEntity<String> loginCustomer(@RequestBody Customer customer) {
+        String loginMessage = customerService.loginCustomer(customer);
+
+        // Determine the appropriate status code based on the message
+        if ("Login successful!".equals(loginMessage)) {
+            return ResponseEntity.status(HttpStatus.OK).body(loginMessage); // 200 OK
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginMessage); // 400 Bad Request
     }
 
 
