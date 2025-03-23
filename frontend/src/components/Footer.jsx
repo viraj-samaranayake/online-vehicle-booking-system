@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0">
 
             <p className="text-sm md:text-base">
-                &copy; {new Date().getFullYear()} &nbsp;<span className="text-gray-600">MCity Cabs</span>
+                &copy; {new Date().getFullYear()} &nbsp;<span className="text-gray-600">MegaCity Cabs</span>
             </p>
         </div>
     </div>

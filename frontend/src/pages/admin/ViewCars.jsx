@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ViewCar() {
 
@@ -8,6 +8,7 @@ function ViewCar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [carToDelete, setCarToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -45,6 +46,14 @@ function ViewCar() {
       <h1 className="text-3xl text-center font-semibold text-yellow-800 m-8">Vehicle List</h1>
       {/* <Link to={'/admin'} className='p-8'><FaBackwardStep/></Link> */}
     
+      <button
+            type="button"
+            onClick={() => navigate(`/admin`)}
+            className="my-4 bg-gray-400 text-white mr-6 px-4 py-2 rounded-full hover:bg-gray-500 transition-all"
+          >
+          Back to Dashboard
+      </button>
+
       <input
         type="text"
         placeholder="Search by car model"

@@ -8,32 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ Get login function from AuthContext
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const loginData = { email, password };
-
-  //   try {
-  //     const response = await axios.post(
-  //       'http://localhost:8081/customers/login',
-  //       loginData
-  //     );
-
-  //     if (response.data === 'Login successful!') {
-  //       setStatus('Login successful! Redirecting...');
-  //       login(); // ✅ Update AuthContext state
-  //       setTimeout(() => navigate('/dashboard'), 1000);
-  //     } else {
-  //       setStatus(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error occurred during login', error);
-  //     setStatus('Error occurred during login.');
-  //   }
-  // };
-
+  const { login } = useContext(AuthContext); //Get login function from AuthContext
 
 
   const handleSubmit = async (e) => {
@@ -44,16 +19,18 @@ const Login = () => {
       const response = await axios.post('http://localhost:8081/customers/login', loginData);
   
       if (response.data === 'Login successful!') {
-        setStatus('Login successful! Redirecting...');
+        setStatus('');
+        alert('Login successful!')
         login();
   
         // Store the email or user info in localStorage
         localStorage.setItem('email', email);
   
         setTimeout(() => navigate('/dashboard'), 1000);
-      } else {
-        setStatus(response.data);
-      }
+      } 
+      // else {
+      //   setStatus(response.data);
+      // }
     } catch (error) {
       console.error('Error occurred during login', error);
       setStatus('Error occurred during login.');
@@ -61,17 +38,13 @@ const Login = () => {
   };
   
 
-
-
-
-
   return (
     <div className="main-div">
       <div className="form-card">
         <h2 className="text-2xl mb-4 font-bold text-center text-yellow-500">
           Sign In
         </h2>
-        {status && <p className="mt-2 text-center text-yellow-500">{status}</p>}
+        {status && <p className="mt-2 font-semibold text-center text-red-500">{status}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
             <label
@@ -111,7 +84,7 @@ const Login = () => {
           </div>
 
           <button type="submit" className="form-button">
-            Login
+            Sign In
           </button>
           <p className="flex items-center text-gray-700 justify-center mt-4">
             Don&apos;t have an account?{' '}

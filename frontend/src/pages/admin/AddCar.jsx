@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AddCar = () => {
   const [vehicleType, setType] = useState('');
   const [brand, setBrand] = useState('');
   const [model, setModel] = useState('');
   const [licensePlateNo, setLicenseNo] = useState('');
-
   const [status, setStatus] = useState('');
   const [statusType, setStatusType] = useState(''); // 'success' or 'error'
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +43,7 @@ const AddCar = () => {
         error.response &&
         error.response.data === 'Car with this license number already exists.'
       ) {
-        setStatus('This License number already exists!!');
+        setStatus('This License number already exists!');
         setStatusType('error');
       } else {
         setStatus('An error occurred while adding the car.');
@@ -63,7 +62,7 @@ const AddCar = () => {
         {/* Display status message with different color based on success or error */}
         {status && (
           <p
-            className={`mt-2 text-center ${
+            className={`m-2 text-center font-semibold ${
               statusType === 'success' ? 'text-green-600' : 'text-red-600'
             }`}
           >
@@ -141,7 +140,7 @@ const AddCar = () => {
               onChange={(e) => setLicenseNo(e.target.value)}
               pattern='^\d{2}-\d{4}$|^\d{3}-\d{4}$|^[A-Z]{2}-\d{4}$|^[A-Z]{3}-\d{4}$'
               title='Enter a valid number plate: format like 65-2525, KK-5252, or CCC-5151'
-              className="form-input uppercase"
+              className="form-input"
               required
             />
           </div>
@@ -149,13 +148,13 @@ const AddCar = () => {
           <button type="submit" className="form-button">
             Add Car
           </button>
-
-          {/* <button
-          onClick={() => navigate(`/admin`)}
-          className="w-full text-center mt-7 px-4 py-2 bg-yellow-500 text-white rounded-lg"
-        >
- Dashboard
-        </button> */}
+      <button
+        type="button"
+        onClick={() => navigate(`/admin`)}
+        className="mt-4 bg-gray-400 text-white w-full px-4 py-2 rounded-full hover:bg-gray-500 transition-all"
+      >
+        Back to Dashboard
+      </button>
         </form>
       </div>
     </div>

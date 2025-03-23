@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const AdminLogin = () => {
 
@@ -9,7 +9,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);  // ✅ Get login function from AuthContext
+  const { login } = useContext(AuthContext);  // Get login function from AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +20,10 @@ const AdminLogin = () => {
       const response = await axios.post('http://localhost:8081/admin/login', loginData);
 
       if (response.data === "Login successful!") { 
-        setStatus('Login successful! Redirecting...');
-        login();  // ✅ Update AuthContext state
+
+        alert('Login successful!')
+        setStatus('');
+        login();  // Update AuthContext state
         setTimeout(() => navigate('/admin'), 1000);
       } else {
         setStatus(response.data);
@@ -36,9 +38,9 @@ const AdminLogin = () => {
     <div className="main-div">
       <div className="form-card">
         <h2 className="text-2xl mb-4 font-bold text-center text-yellow-500">
-         ADMIN Log In
+         Admin Sign In
         </h2>
-        {status && <p className="mt-2 text-center text-yellow-500">{status}</p>}
+        {status && <p className="mt-2 text-center text-red-500">{status}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
             <label
@@ -79,11 +81,10 @@ const AdminLogin = () => {
 
           <button
             type="submit"
-            className="form-button"
+            className="form-button mt-6"
           >
-            Login
+            Sign In
           </button>
-          <p className='flex items-center text-gray-700 justify-center mt-4'>Don&apos;t have an account? <Link to="/register">&nbsp;<span className='text-yellow-500 hover:text-yellow-600'>Sign up</span></Link></p>
         </form>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BillValue = () => {
   const [billValues, setBillValues] = useState([]);
@@ -11,6 +12,7 @@ const BillValue = () => {
     discount: ''
   });
   const [editingId, setEditingId] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate function
 
  // Fetch vehicle types
 useEffect(() => {
@@ -76,12 +78,22 @@ useEffect(() => {
 
   // Handle delete
   const handleDelete = async (id) => {
-    try {
-      await fetch(`http://localhost:8081/admin/billvalues/${id}`, { method: 'DELETE' });
-      setBillValues(billValues.filter(bv => bv.id !== id));
-    } catch (error) {
-      console.error('Error deleting bill value:', error);
+
+    const confirmDelete = window.confirm('Are you sure you want to delete this bill value?');
+    if (confirmDelete) {
+      try {
+        await fetch(`http://localhost:8081/admin/billvalues/${id}`, { method: 'DELETE' });
+        setBillValues(billValues.filter(bv => bv.id !== id));
+      } catch (error) {
+        console.error('Error deleting bill value:', error);
+      }
+    } else {
+      console.log('Delete action was canceled.');
     }
+  };
+
+  const handleGoBack = () => {
+    navigate('/admin'); // Navigate to dashboard route
   };
 
   return (
@@ -100,7 +112,8 @@ useEffect(() => {
           <input type="number" name="tax" placeholder="Tax (%)" value={formData.tax} onChange={handleChange} className="border p-2 rounded" required />
           <input type="number" name="discount" placeholder="Discount (%)" value={formData.discount} onChange={handleChange} className="border p-2 rounded" required />
         </div>
-        <button type="submit" className="mt-4 bg-yellow-700 text-white px-4 py-2 rounded-lg hover:bg-yellow-800">{editingId ? 'Update' : 'Add'} Bill Value</button>
+        <button type="submit" className="mt-4 bg-yellow-700 text-white px-4 py-2 rounded-lg hover:bg-yellow-800" disabled={vehicleTypes.length > 0 && !editingId} // Disable button if vehicleTypes are set and not editing
+        >{editingId ? 'Update' : 'Add'} Bill Value</button>
       </form>
       <table className="w-full bg-white rounded-lg shadow-lg">
         <thead>
@@ -115,13 +128,13 @@ useEffect(() => {
         </thead>
         <tbody>
           {billValues.map(bill => (
-            <tr key={bill.id} className="border-t">
+            <tr key={bill.id} className="border-t text-center">
               <td className="p-3">{bill.vehicleType}</td>
               <td className="p-3">{bill.firstTwentyPerKm}</td>
               <td className="p-3">{bill.twentyPlusPerKm}</td>
               <td className="p-3">{bill.tax}</td>
               <td className="p-3">{bill.discount}</td>
-              <td className="p-3 flex gap-2">
+              <td className="p-3 flex gap-3">
                 <button onClick={() => handleEdit(bill)} className="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500">Edit</button>
                 <button onClick={() => handleDelete(bill.id)} className="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500">Delete</button>
               </td>
@@ -129,6 +142,14 @@ useEffect(() => {
           ))}
         </tbody>
       </table>
+      {/* Go Back to Dashboard Button */}
+      <button
+        type="button"
+        onClick={handleGoBack}
+        className="mt-4 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800"
+      >
+      Back to Dashboard
+      </button>
     </div>
   );
 };

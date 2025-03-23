@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { MdPending } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
@@ -162,33 +162,52 @@ const CustomerViewBooking = () => {
                     <strong>Destination:</strong> {booking.destination}
                   </p>
                   <p className="text-gray-600">
-                    <strong>Distance:</strong> {booking.distance}
+                    <strong>Distance:</strong> {booking.distance} Km
                   </p>
 
                   <p
-                    className={`flex items-center text-lg font-semibold ${
-                      booking.bookingStatus
-                        ? 'text-green-600'
-                        : 'text-yellow-600'
-                    }`}
-                  >
-                    <strong>Your Booking: &nbsp;</strong>
-                    {booking.bookingStatus ? (
-                      <>
-                        <FaCheckCircle /> &nbsp;Accepted
-                        <button
-                          onClick={() => navigate(`/customer/bookings/bill/${booking.id}`)}
-                          className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-full transition"
-                        >
-                          View Bill
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <MdPending /> &nbsp;Pending
-                      </>
-                    )}
-                  </p>
+                      className={`flex items-center text-lg font-semibold ${
+                        booking.bookingStatus === 'accepted'
+                          ? 'text-green-600'
+                          : booking.bookingStatus === 'pending'
+                          ? 'text-yellow-600'
+                          : booking.bookingStatus === 'cancelled'
+                          ? 'text-red-600'
+                          : 'text-blue-600' // For completed or other cases
+                      }`}
+                    >
+                      <span>Your Booking: &nbsp;</span>
+                      {booking.bookingStatus === 'accepted' ? (
+                        <>
+                          <FaCheckCircle /> &nbsp;Accepted
+                          <button
+                            onClick={() => navigate(`/customer/bookings/bill/${booking.id}`)}
+                            className="mx-4 p-5 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-full transition"
+                          >
+                            View Bill
+                          </button>
+                        </>
+                      ) : booking.bookingStatus === 'pending' ? (
+                        <>
+                          <MdPending /> &nbsp;Pending
+                        </>
+                      ) : booking.bookingStatus === 'cancelled' ? (
+                        <>
+                          <FaTimesCircle /> &nbsp;Cancelled
+                        </>
+                      ) : booking.bookingStatus === 'completed' ? (
+                        <>
+                          <FaCheckCircle /> &nbsp;Completed
+                          <button
+                            onClick={() => navigate(`/customer/bookings/bill/${booking.id}`)}
+                            className="mx-4 p-5 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-full transition"
+                          >
+                            View Bill
+                          </button>
+                        </>
+                      ) : null}
+                    </p>
+
                 </div>
               </div>
             );

@@ -1,7 +1,7 @@
 
 const Help = () => {
   return (
-    <section className="min-h-screen bg-gray-100 py-20 ">
+    <section className="min-h-screen bg-gray-100 py-20 mt-16">
       <div className="container mx-auto text-center">
         <h2 className="text-4xl font-bold text-yellow-primary mb-6">How It Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

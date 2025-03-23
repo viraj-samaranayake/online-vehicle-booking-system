@@ -4,26 +4,33 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import CabBooking from './pages/CabBooking';
 import Bill from './pages/Bill';
-import ViewBookings from './pages/ViewBookings';
+import ViewBookings from './pages/admin/ViewBookings';
 import Dashboard from './pages/Dashboard';
 import Hero from './components/Hero';
 import Help from './pages/Help';
 import Navbar from './components/NavBar';
-import AddCar from './pages/AddCar';
-import AddDriver from './pages/AddDriver';
-import ViewDrivers from './pages/ViewDrivers';
-import UpdateDriver from './pages/UpdateDriver';
-import UpdateCar from './pages/UpdateCar';
+import AddCar from './pages/admin/AddCar';
+import AddDriver from './pages/admin/AddDriver';
+import ViewDrivers from './pages/admin/ViewDrivers';
+import UpdateDriver from './pages/admin/UpdateDriver';
+import UpdateCar from './pages/admin/UpdateCar';
 import Footer from './components/Footer';
-import AdminDashboard from './pages/AdminDashboard';
-import UpdateBooking from './pages/UpdateBooking';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import UpdateBooking from './pages/admin/UpdateBooking';
 import CustomerViewBooking from './pages/CustomerViewBooking';
-import ViewCar from './pages/ViewCars';
+import ViewCar from './pages/admin/ViewCars';
 import ScrollUp from './components/ScrollUp';
 import NoPage from './pages/NoPage';
 import { AuthProvider } from './context/AuthContext';
-import AdminLogin from './pages/AdminLogin';
-import BillValue from './pages/BillValue';
+import AdminLogin from './pages/admin/AdminLogin';
+import BillValue from './pages/admin/BillValue';
+import ReportsPage from './pages/admin/ReportsPage';
+import VehicleReport from './pages/admin/VehicleReport';
+import DriverReport from './pages/admin/DriverReport';
+// import BookingReport from './pages/admin/BookingReport';
+import RevenueReport from './pages/admin/RevenueReport';
+import RevenueGraph from './pages/admin/RevenueGraph';
+import CustomerReport from './pages/admin/CustomerReport';
 
 const App = () => {
   return (
@@ -48,6 +55,13 @@ const App = () => {
           <Route path="/admin/addcar" element={<AddCar />} />
           <Route path="/admin/cars" element={<ViewCar />} />
           <Route path="/admin/cars/:id" element={<UpdateCar />} />
+          <Route path="/admin/reports" element={<ReportsPage />} /> 
+          <Route path="/admin/reports/vehicle" element={<VehicleReport />} />
+          <Route path="/admin/reports/driver" element={<DriverReport />} />
+          {/* <Route path="/admin/reports/booking" element={<BookingReport />} /> */}
+          <Route path="/admin/reports/customer" element={<CustomerReport/>} />
+          <Route path="/admin/reports/revenue" element={<RevenueReport />} />
+          <Route path="/admin/reports/revenue-graph" element={<RevenueGraph />} />
 
           <Route path="/admin/drivers/add" element={<AddDriver />} />
           <Route path="/admin/drivers" element={<ViewDrivers />} />

@@ -111,7 +111,7 @@ function UpdateCar() {
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 justify-self-center">
 
         <div className='flex items-center gap-6'>
           {/* Toggle button for status */}

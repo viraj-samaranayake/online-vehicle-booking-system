@@ -29,7 +29,8 @@ const CustomerRegisterForm = () => {
         'http://localhost:8081/customers/register',
         newCustomer
       );
-      setStatus(`Customer '${response.data.name}' registered successfully!`);
+      setStatus('');
+      alert(`${response.data.name}, You've registered successfully!`);
       setName('');
       setAddress('');
       setPhone('');
@@ -38,8 +39,22 @@ const CustomerRegisterForm = () => {
       setPassword('');
       setTimeout(() => navigate('/login'), 1000);
     } catch (error) {
+
       console.error('Error occurred while registering the customer', error);
       setStatus('Error occurred while registering the customer.');
+
+      if (
+        error.response &&
+        error.response.data === 'This NIC already exists!'
+      ) {
+        setStatus('This NIC already exists!');
+      } else if (       
+        error.response &&
+        error.response.data === 'This Email already exists!'
+      ){
+        setStatus('This Email already exists!');
+      }
+
     }
   };
 
@@ -49,7 +64,7 @@ const CustomerRegisterForm = () => {
         <h2 className="text-2xl font-bold text-center text-yellow-500">
           Sign Up
         </h2>
-        {status && <p className="mt-2 text-center text-green-600">{status}</p>}
+        {status && <p className="mt-2 text-center font-semibold text-red-600">{status}</p>}
 
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
@@ -63,6 +78,8 @@ const CustomerRegisterForm = () => {
               autoFocus={true}
               onChange={(e) => setName(e.target.value)}
               className="form-input"
+              pattern='^[A-Za-z]+(?: [A-Za-z]+)?$'
+              title='Name must contain only letters'
               required
             />
           </div>
@@ -91,6 +108,8 @@ const CustomerRegisterForm = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="form-input"
+              pattern='^[0-9]{10}$'
+              title='Phone No must be 10 digits number'
               required
             />
           </div>
@@ -105,6 +124,9 @@ const CustomerRegisterForm = () => {
               value={nic}
               onChange={(e) => setNic(e.target.value)}
               className="form-input"
+              pattern="^\d{9}[VX]$|^\d{12}$"
+              title="Enter a valid NIC number: 9 digits followed by V or X, or 12 digits only"
+              placeholder="Enter NIC No"
               required
             />
           </div>
@@ -133,6 +155,9 @@ const CustomerRegisterForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
+              pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,20}$"
+              title="Password must be between 8 and 20 characters, include at least one uppercase letter, one lowercase letter, one number, and one special character"
+              placeholder="Enter NIC No"
               required
             />
           </div>
@@ -145,7 +170,7 @@ const CustomerRegisterForm = () => {
             <Link to="/login">
               &nbsp;
               <span className="text-yellow-500 hover:text-yellow-600">
-                Log in
+                Sign in
               </span>
             </Link>
           </p>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ViewDriver() {
   const [drivers, setDrivers] = useState([]);
@@ -7,6 +7,7 @@ function ViewDriver() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [driverToDelete, setDriverToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDrivers = async () => {
@@ -52,6 +53,14 @@ function ViewDriver() {
         Driver List
       </h1>
 
+      <button
+        type="button"
+        onClick={() => navigate(`/admin`)}
+        className="my-4 bg-gray-400 text-white mr-6 px-4 py-2 rounded-full hover:bg-gray-500 transition-all"
+        >
+        Back to Dashboard
+      </button>
+
       <input
         name="search"
         type="number"
@@ -78,16 +87,16 @@ function ViewDriver() {
                   &nbsp;NIC: {driver.nicNo}
                 </span>
               </div>
-              <div className="text-gray-600">
-                <p>Mobile: {driver.mobileNo}</p>
-                <p>Email: {driver.email}</p>
-                <p>License No: {driver.drivingLicenseNo}</p>
-                <p>Experience: {driver.experienceYears}</p>
+              <div className="text-gray-600 font-semibold">
+                <p>Mobile: <span className='text-gray-500 font-semibold'>{driver.mobileNo}</span></p>
+                <p>Email: <span className='text-gray-500 font-semibold'>{driver.email}</span></p>
+                <p>License No: <span className='text-gray-500 font-semibold'>{driver.drivingLicenseNo}</span></p>
+                <p>Experience years: <span className='text-gray-500 font-semibold'>{driver.experienceYears}</span></p>
 
                 {/* Display Assigned Car details */}
                 {driver.assignedCar && (
                   <div>
-                    <p>Assigned Car: {driver.assignedCar.brand} | {driver.assignedCar.licensePlateNo}</p>
+                    <p>Assigned Car: <span className='text-gray-500 font-semibold'>{driver.assignedCar.brand} | {driver.assignedCar.licensePlateNo}</span></p>
                   </div>
                 )}
               </div>

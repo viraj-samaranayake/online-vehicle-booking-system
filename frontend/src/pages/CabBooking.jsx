@@ -138,6 +138,7 @@ const CabBooking = () => {
       startLocation,
       destination,
       distance,
+      bookingStatus: 'pending',
     };
 
     try {
