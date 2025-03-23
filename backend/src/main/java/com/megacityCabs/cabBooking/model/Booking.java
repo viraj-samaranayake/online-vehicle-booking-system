@@ -23,6 +23,7 @@ public class Booking {
     private String vehicleType;
     private String licensePlateNo;
     private String phone;
+    private String tripDateTime;
     private String startLocation;
     private String destination;
     private String distance;
