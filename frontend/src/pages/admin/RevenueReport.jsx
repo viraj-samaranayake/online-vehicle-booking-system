@@ -7,8 +7,8 @@ import * as XLSX from 'xlsx';
 const RevenueReport = () => {
   const [revenues, setRevenues] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  // const [fromDate, setFromDate] = useState('');
+  // const [toDate, setToDate] = useState('');
   const [filters, setFilters] = useState({
     startDate: '',
     endDate: '',
@@ -208,7 +208,7 @@ const RevenueReport = () => {
         <div className="grid grid-cols-3 gap-6 mb-6">
           <div className="p-4 bg-yellow-200 rounded shadow-md">
             <h2 className="text-xl text-yellow-800">Total Revenue</h2>
-            <p className="text-2xl font-bold">Rs: {totalRevenue}</p>
+            <p className="text-2xl font-bold">Rs: {totalRevenue.toFixed(2)}</p>
           </div>
           <div className="p-4 bg-yellow-200 rounded shadow-md">
             <h2 className="text-xl text-yellow-800">Revenue (Daily)</h2>
@@ -239,9 +239,9 @@ const RevenueReport = () => {
               {filteredRevenue.map((revenue) => (
                 <tr key={revenue.id} className="border-b hover:bg-yellow-50">
                   <td className="p-3">{revenue.route}</td>
-                  <td className="p-3">{revenue.total}</td>
-                  <td className="p-3">{revenue.discount}</td>
-                  <td className="p-3">{revenue.total - revenue.discount}</td>
+                  <td className="p-3">{revenue.total.toFixed(2)}</td>
+                  <td className="p-3">{revenue.discount.toFixed(2)}</td>
+                  <td className="p-3">{(revenue.total - revenue.discount).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

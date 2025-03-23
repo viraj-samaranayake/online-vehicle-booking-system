@@ -14,6 +14,7 @@ function UpdateBooking() {
     vehicleType: '',
     licensePlateNo: '',
     phone: '',
+    bookingDate: '',
     startLocation: '',
     destination: '',
     distance: '',
@@ -335,6 +336,22 @@ function UpdateBooking() {
             className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
+
+
+        <div>
+          <label htmlFor="driverName" className="block text-gray-700">
+            Requested Trip Date
+          </label>
+          <input
+            type="text"
+            id="driverName"
+            name="driverName"
+            value={new Date(booking.tripDateTime).toLocaleString()}
+            readOnly
+            className="w-full p-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
 
         <div>
           <label htmlFor="startLocation" className="block text-gray-700">

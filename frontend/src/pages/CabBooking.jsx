@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';  // Import DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Import the CSS for DatePicker
+
 
 const CabBooking = () => {
   const [customerName, setCustomerName] = useState('');
@@ -16,8 +19,10 @@ const CabBooking = () => {
   const [status, setStatus] = useState('');
   const [cars, setCars] = useState([]);
   const [distance, setDistance] = useState(null); // State to store the generated random distance
-
   const [driverName, setDriverName] = useState('');
+
+  const [selectedDateTime, setSelectedDateTime] = useState(null); // State to handle date and time
+  const now = new Date();   // Get the current date and time
 
   const navigate = useNavigate();
 
@@ -42,6 +47,40 @@ const CabBooking = () => {
     };
     fetchCustomerDetails();
   }, []);
+
+
+
+  // Function to calculate the next 15-minute interval
+  const getNextAvailableTime = () => {
+    const minutes = now.getMinutes();
+    const nextInterval = Math.ceil(minutes / 15) * 15; // Round up to the next 15-minute interval
+    now.setMinutes(nextInterval, 0, 0); // Set time to the next available 15-minute slot
+    return now;
+  };
+
+  // Get the next available time (after rounding up to the next 15-minute interval)
+  const nextAvailableTime = getNextAvailableTime();
+
+  // Get tomorrow's date (for the date picker)
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1); // Set tomorrow's date
+
+  // Function to filter times, ensuring that only the next available 15-minute interval and onward are selectable
+  const filterPastTimes = (time) => {
+    return time.getTime() >= nextAvailableTime.getTime(); // Disable past times before the next available 15-minute slot
+  };
+
+  // Function to limit the date selection to today and tomorrow
+  const isValidDate = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset to start of today
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1); // Tomorrow's date
+
+    return date >= today && date <= tomorrow;
+  };
+
+
 
   // Fetch car details
   useEffect(() => {
@@ -126,6 +165,7 @@ const CabBooking = () => {
       return;
     }
 
+
     const newBooking = {
       customerName,
       customerId,
@@ -135,6 +175,8 @@ const CabBooking = () => {
       driverName,
       vehicleType: selectedCar,
       licensePlateNo: selectedCarFromList.licensePlateNo, // Save the selected car’s license plate
+
+      tripDateTime: selectedDateTime, // Include date and time
       startLocation,
       destination,
       distance,
@@ -275,6 +317,32 @@ const CabBooking = () => {
               className="form-input"
             />
           </div>
+
+
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          Select Booking Date and Time
+        </label>
+        <DatePicker
+          selected={selectedDateTime}
+          onChange={(date) => setSelectedDateTime(date)} // Update selected date and time
+          minDate={nextAvailableTime} // Disable past dates and times (before the next available time)
+          showTimeSelect // Enable time selection
+          showTimeSelectOnly={false} // Allow both date and time selection
+          timeIntervals={15} // 15-minute time intervals
+          timeFormat="HH:mm" // Time format in 24-hour format
+          dateFormat="yyyy-MM-dd HH:mm" // Combined date and time format
+          timeCaption="Time" // Label for the time picker
+          filterTime={filterPastTimes} // Filter out past times
+          filterDate={isValidDate} // Filter the date selection to today and tomorrow only
+          className="form-input"
+        />
+      </div>
+
+
+
+
 
           {/* Pickup Location */}
           <div className="mb-4">

@@ -19,9 +19,9 @@ const ReportsPage = () => {
           <Link to="/admin/reports/customer" className="px-6 py-6 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">
             Generate Customer Report
           </Link>
-          <Link to="/admin/reports/booking" className="px-6 py-6 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition duration-300">
+          {/* <Link to="/admin/reports/booking" className="px-6 py-6 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition duration-300">
             Generate Booking Report
-          </Link>
+          </Link> */}
           <Link to="/admin/reports/revenue" className="px-6 py-6 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition duration-300">
             Generate Revenue Report
           </Link>

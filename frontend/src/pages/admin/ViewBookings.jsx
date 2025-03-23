@@ -64,10 +64,11 @@ const ViewBookings = () => {
           <thead className="bg-yellow-100 text-yellow-700">
             <tr className='text-center'>
               <th className="px-6 py-3 font-semibold">Booking ID</th>
-              <th className="px-6 py-3 font-semibold">Date</th>
+              <th className="px-6 py-3 font-semibold">Booked Date</th>
               <th className="px-6 py-3 font-semibold">Customer Name</th>
               <th className="px-6 py-3 font-semibold">Pickup Location</th>
               <th className="px-6 py-3 font-semibold">Destination</th>
+              <th className="px-6 py-3 font-semibold">Trip Date</th>
               <th className="px-6 py-3 font-semibold">Customer Phone</th>
               <th className="px-6 py-3 font-semibold">Vehicle No</th>
               <th className="px-6 py-3 font-semibold">Status</th>
@@ -82,6 +83,7 @@ const ViewBookings = () => {
                   <td className="px-4 py-4 border text-gray-700">{booking.customerName}</td>
                   <td className="px-4 py-4 border text-gray-700">{booking.startLocation}</td>
                   <td className="px-4 py-4 border text-gray-700">{booking.destination}</td>
+                  <td className="px-4 py-4 border text-gray-700">{new Date(booking.tripDateTime).toLocaleString()}</td>
                   <td className="px-4 py-4 border text-gray-700">{booking.phone}</td>
                   <td className="px-4 py-4 border text-gray-700">{booking.licensePlateNo}</td>
 

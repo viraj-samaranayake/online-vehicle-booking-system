@@ -145,6 +145,12 @@ const CustomerViewBooking = () => {
                     <strong>Booked Date:</strong>{' '}
                     {new Date(booking.createdDateTime).toLocaleString()}
                   </p>
+
+                  <p className="text-gray-600">
+                    <strong>Trip Date:</strong>{' '}
+                    {new Date(booking.tripDateTime).toLocaleString()}
+                  </p>
+
                   <p className="text-gray-600">
                     <strong>Vehicle :</strong> {booking.licensePlateNo} |{' '}
                     {booking.vehicleType}
